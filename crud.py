@@ -13,6 +13,12 @@ def delete_all_drivers(db: Session):
         db.delete(driver)
     db.commit()
 
+def delete_all_teams(db: Session):
+    teams = db.query(models.Team).all()
+    for team in teams:
+        db.delete(team)
+    db.commit()
+
 def create_driver(db: Session, driver: schemas.DriverCreate):
     db_driver = models.Driver(**driver.dict())
     db.add(db_driver)

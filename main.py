@@ -58,3 +58,9 @@ def delete_driver(number: int, db: Session = Depends(get_db)):
 def delete_all_drivers(db: Session = Depends(get_db)):
     crud.delete_all_drivers(db)
     return {"message": "All drivers deleted"}
+
+# Delete all teams
+@app.delete("/teams/delete-all")
+def delete_all_teams(db: Session = Depends(get_db)):
+    crud.delete_all_teams(db)
+    return {"message": "All teams deleted"}
