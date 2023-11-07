@@ -44,10 +44,10 @@ def read_teams(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     teams = crud.get_teams(db, skip=skip, limit=limit)
     return teams
 
-# Delete driver by ID
-@app.delete("/drivers/delete/{driver_id}")
-def delete_driver(driver_id: int, db: Session = Depends(get_db)):
-    driver = crud.get_driver_by_number(db, driver_id)
+# Delete driver by number
+@app.delete("/drivers/delete/{number}")
+def delete_driver(number: int, db: Session = Depends(get_db)):
+    driver = crud.get_driver_by_number(db, number)
     if driver is None:
         raise HTTPException(status_code=404, detail="Driver not found")
     crud.delete_driver(db, driver)
