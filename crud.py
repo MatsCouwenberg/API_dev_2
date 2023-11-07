@@ -13,6 +13,7 @@ def delete_all_drivers(db: Session):
         db.delete(driver)
     db.commit()
 
+# ?
 def delete_all_teams(db: Session):
     teams = db.query(models.Team).all()
     for team in teams:
