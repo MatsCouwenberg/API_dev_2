@@ -1,0 +1,41 @@
+from sqlalchemy.orm import Session
+
+import models
+import schemas
+
+def delete_driver(db: Session, driver: models.Driver):
+    db.delete(driver)
+    db.commit()
+
+def delete_all_drivers(db: Session):
+    drivers = db.query(models.Driver).all()
+    for driver in drivers:
+        db.delete(driver)
+    db.commit()
+
+def create_driver(db: Session, driver: schemas.DriverCreate):
+    db_driver = models.Driver(**driver.dict())
+    db.add(db_driver)
+    db.commit()
+    db.refresh(db_driver)
+    return db_driver
+
+def get_drivers(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Driver).offset(skip).limit(limit).all()
+
+#def get_driver_by_number(db: Session, number: int):
+    #return db.query(models.Driver).filter(models.Driver.number == number).first()
+
+def create_team(db: Session, team: schemas.TeamCreate):
+    db_team = models.Team(**team.dict())
+    db.add(db_team)
+    db.commit()
+    db.refresh(db_team)
+    return db_team
+
+def get_teams(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Team).offset(skip).limit(limit).all()
+
+#def get_team_by_name(db: Session, name: str):
+    #return db.query(models.Team).filter(models.Team.name == name).first()
+
