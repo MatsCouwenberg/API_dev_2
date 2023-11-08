@@ -7,13 +7,16 @@ def delete_driver(db: Session, driver: models.Driver):
     db.delete(driver)
     db.commit()
 
+def delete_team(db: Session, team: models.Team):
+    db.delete(team)
+    db.commit()
+
 def delete_all_drivers(db: Session):
     drivers = db.query(models.Driver).all()
     for driver in drivers:
         db.delete(driver)
     db.commit()
 
-# ?
 def delete_all_teams(db: Session):
     teams = db.query(models.Team).all()
     for team in teams:
@@ -43,6 +46,6 @@ def create_team(db: Session, team: schemas.TeamCreate):
 def get_teams(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Team).offset(skip).limit(limit).all()
 
-def get_team_by_name(db: Session, name: str):
-    return db.query(models.Team).filter(models.Team.name == name).first()
+def get_team_by_id(db: Session, id: int):
+    return db.query(models.Team).filter(models.Team.id == id).first()
 

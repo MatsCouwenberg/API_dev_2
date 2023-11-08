@@ -64,3 +64,12 @@ def delete_all_drivers(db: Session = Depends(get_db)):
 def delete_all_teams(db: Session = Depends(get_db)):
     crud.delete_all_teams(db)
     return {"message": "All teams deleted"}
+
+# Delete team by ID
+@app.delete("/teams/delete/{id}")
+def delete_team(id: int, db: Session = Depends(get_db)):
+    team = crud.get_team_by_id(db, id)
+    if team is None:
+        raise HTTPException(status_code=404, detail="Team not found")
+    crud.delete_driver(db, team)
+    return {"message": "Team deleted"}
