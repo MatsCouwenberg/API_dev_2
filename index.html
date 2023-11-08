@@ -1,0 +1,21 @@
+<html lang="en">
+<head>
+    <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
+    <title>F1 API</title>
+</head>
+<body>
+    <div x-data="{
+        drivers: null,
+        async fetchDrivers() {
+            this.drivers = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/')).json();
+        }
+    }" x-init="fetchDrivers">
+        <h1>Drivers</h1>
+            <template x-if="drivers">
+                <template x-for="driver in drivers">
+                    <li x-text="driver.name"></li>
+                </template>
+            </template>
+    </div>
+</body>
+</html>
