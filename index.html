@@ -2,20 +2,67 @@
 <head>
     <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
     <title>F1 API</title>
+    <style>
+        .drivername{
+            font-size: 18px;
+            font-weight: bolder;
+        }
+        .teamname{
+            font-size: 18px;
+            font-weight: bolder;
+        }
+        .driverinfo{
+            margin-left: 30px;
+        }
+        .teaminfo{
+            margin-left: 30px;
+        }
+        h1{
+            margin-left: 40px;
+        }
+        *{
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div x-data="{
-        drivers: null,
-        async fetchDrivers() {
-            this.drivers = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/')).json();
-        }
-    }" x-init="fetchDrivers">
-        <h1>Drivers</h1>
-            <template x-if="drivers">
-                <template x-for="driver in drivers">
-                    <li x-text="driver.name"></li>
-                </template>
-            </template>
-    </div>
+<div x-data="{
+    drivers: null,
+    async fetchDrivers() {
+        this.drivers = await (await fetch('http://127.0.0.1:8000/drivers/')).json();
+    }
+}" x-init="fetchDrivers">
+    <h1>Drivers</h1>
+    <template x-if="drivers">
+        <template x-for="driver in drivers">
+            <li style="margin-bottom: 20px;">
+                <span class="drivername" x-text="driver.name"></span>
+                <br>
+                <span class="driverinfo" x-text="driver.number"></span>
+                <br>
+                <span class="driverinfo" x-text="driver.nationality"></span>
+            </li>
+        </template>
+    </template>
+</div>
+
+<div x-data="{
+    teams: null,
+    async fetchTeams() {
+        this.teams = await (await fetch('http://127.0.0.1:8000/teams/')).json();
+    }
+}" x-init="fetchTeams">
+    <h1>Teams</h1>
+    <template x-if="teams">
+        <template x-for="team in teams">
+            <li style="margin-bottom: 20px;">
+                <span class="teamname" x-text="team.name"></span>
+                <br>
+                <span class="teaminfo" x-text="team.country"></span>
+            </li>
+        </template>
+    </template>
+</div>
+
 </body>
 </html>
