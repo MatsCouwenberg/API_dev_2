@@ -29,7 +29,7 @@
 <div x-data="{
     drivers: null,
     async fetchDrivers() {
-        this.drivers = await (await fetch('http://127.0.0.1:8000/drivers/')).json();
+        this.drivers = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/')).json();
     }
 }" x-init="fetchDrivers">
     <h1>Drivers</h1>
@@ -49,7 +49,7 @@
 <div x-data="{
     teams: null,
     async fetchTeams() {
-        this.teams = await (await fetch('http://127.0.0.1:8000/teams/')).json();
+        this.teams = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/teams/')).json();
     }
 }" x-init="fetchTeams">
     <h1>Teams</h1>
