@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" xmlns:x-on="http://www.w3.org/1999/xhtml">
 <head>
     <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
     <title>F1 API</title>
@@ -23,9 +23,20 @@
         *{
             margin-left: 10px;
         }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .left-container, .right-container {
+            width: 45%;
+        }
     </style>
 </head>
 <body>
+<div class="container">
+    <div class="left-container">
 <div x-data="{
     drivers: null,
     async fetchDrivers() {
@@ -63,6 +74,49 @@
         </template>
     </template>
 </div>
+        </div>
 
+<div class="right-container" x-data="{
+        responsedata: null,
+        driverNumber: null,
+        driverName: null,
+        driverNationality: null,
+        async addDriver() {
+            this.responsedata = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/new',
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    number: this.driverNumber,
+                    name: this.driverName,
+                    nationality: this.driverNationality,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })).json();
+
+            console.log(this.responsedata);
+        },
+    }">
+    <h1 style="margin-left: 0;">Create driver</h1>
+    <p>
+        <label for="driverNumber">Number:</label>
+        <input type="number" id="driverNumber" x-model="driverNumber">
+    </p>
+    <p>
+        <label for="driverName">Name:</label>
+        <input type="text" id="driverName" x-model="driverName">
+    </p>
+    <p>
+        <label for="driverNationality">Nationality:</label>
+        <input type="text" id="driverNationality" x-model="driverNationality">
+    </p>
+        <button x-on:click="addDriver">Add Driver</button>
+    <h4>Driver made:</h4>
+        <p>Name: <strong x-text="responsedata.name"></strong></p>
+        <p>Number: <strong x-text="responsedata.number"></strong></p>
+        <p>Nationality: <strong x-text="responsedata.nationality"></strong></p>
+    </div>
+</div>
 </body>
 </html>

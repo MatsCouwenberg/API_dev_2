@@ -56,3 +56,4 @@ def delete_all_teams(db: Session = Depends(get_db)):
     crud.delete_all_teams(db)
     return {"message": "All teams deleted"}
 ````
+https://matscouwenberg.github.io/API_dev_1/
