@@ -36,6 +36,9 @@ def get_drivers(db: Session, skip: int = 0, limit: int = 100):
 def get_driver_by_number(db: Session, number: int):
     return db.query(models.Driver).filter(models.Driver.number == number).first()
 
+def get_driver_by_name(db: Session, name: str):
+    return db.query(models.Driver).filter(models.Driver.name == name).first()
+
 def create_team(db: Session, team: schemas.TeamCreate):
     db_team = models.Team(**team.dict())
     db.add(db_team)

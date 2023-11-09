@@ -166,7 +166,7 @@
     driverNumber: '',
     async fetchDriver() {
         if ($data.driverNumber) {
-            const url = `https://f1-api-matscouwenberg.cloud.okteto.net/drivers/${$data.driverNumber}`;
+            const url = `https://f1-api-matscouwenberg.cloud.okteto.net/drivers/number/${$data.driverNumber}`;
             const response = await fetch(url);
 
             if (response.ok) {
@@ -178,11 +178,12 @@
         }
     }
 }" x-init="fetchDriver">
-    <h1>Driver Search</h1>
-    <label for="driverNumberInput">Enter Driver Number:</label>
+    <h1>Driver Search by number</h1>
+    <div style="margin-left: 30px;">
+    <label for="driverNumberInput">Enter driver number:</label>
     <input type="number" id="driverNumberInput" x-model="$data.driverNumber">
-
-    <button x-on:click="fetchDriver">Search</button>
+        <button x-on:click="fetchDriver">Search</button>
+    </div>
 
     <template x-if="$data.driver">
         <li style="margin-bottom: 20px;">
@@ -195,6 +196,46 @@
     </template>
     <template x-if="!$data.driver && $data.driverNumber !== ''">
         <p>No driver found with the specified number.</p>
+    </template>
+</div>
+
+
+
+<div x-data="{
+    driver: null,
+    driverName: '',
+    async fetchDriver() {
+        if ($data.driverName) {
+            const url = `https://f1-api-matscouwenberg.cloud.okteto.net/drivers/name/${encodeURIComponent($data.driverName)}`;
+            const response = await fetch(url);
+
+            if (response.ok) {
+                $data.driver = await response.json();
+            } else {
+                $data.driver = null;
+                console.error(`Error fetching driver with name ${$data.driverName}`);
+            }
+        }
+    }
+}" x-init="fetchDriver">
+    <h1>Driver Search by name</h1>
+    <div style="margin-left: 30px;">
+        <label for="driverNameInput">Enter driver name:</label>
+        <input type="text" id="driverNameInput" x-model="$data.driverName">
+        <button x-on:click="fetchDriver">Search</button>
+    </div>
+
+    <template x-if="$data.driver">
+        <li style="margin-bottom: 20px;">
+            <span class="drivername" x-text="$data.driver.name"></span>
+            <br>
+            <span class="driverinfo" x-text="$data.driver.number"></span>
+            <br>
+            <span class="driverinfo" x-text="$data.driver.nationality"></span>
+        </li>
+    </template>
+    <template x-if="!$data.driver && $data.driverName !== ''">
+        <p>No driver found with the specified name.</p>
     </template>
 </div>
 

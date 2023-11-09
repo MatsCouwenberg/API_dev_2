@@ -41,9 +41,17 @@ def create_driver(driver: schemas.DriverCreate, db: Session = Depends(get_db)):
     return crud.create_driver(db=db, driver=driver)
 
 #Get a driver by number
-@app.get("/drivers/{number}", response_model=schemas.Driver)
+@app.get("/drivers/number/{number}", response_model=schemas.Driver)
 def read_driver(number: int, db: Session = Depends(get_db)):
     driver = crud.get_driver_by_number(db, number=number)
+    if driver is None:
+        raise HTTPException(status_code=404, detail="Driver not found")
+    return driver
+
+#Get a driver by name
+@app.get("/drivers/name/{name}", response_model=schemas.Driver)
+def read_driver_by_name(name: str, db: Session = Depends(get_db)):
+    driver = crud.get_driver_by_name(db, name=name)
     if driver is None:
         raise HTTPException(status_code=404, detail="Driver not found")
     return driver
