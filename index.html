@@ -163,14 +163,20 @@
        <div x-data="{
     deleteAllDrivers: async function() {
         await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/delete-all/', {
-            method: 'DELETE',
+            method: 'POST',
+headers: {
+    'X-HTTP-Method-Override': 'DELETE',
+},
         });
 
         console.log('All drivers deleted!');
     },
     deleteAllTeams: async function() {
         await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/teams/delete-all/', {
-            method: 'DELETE',
+            method: 'POST',
+headers: {
+    'X-HTTP-Method-Override': 'DELETE',
+},
         });
 
         console.log('All teams deleted!');
