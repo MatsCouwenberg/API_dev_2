@@ -112,10 +112,13 @@
         <input type="text" id="driverNationality" x-model="driverNationality">
     </p>
         <button x-on:click="addDriver">Add Driver</button>
-    <h4>Driver made:</h4>
-        <p>Name: <strong x-text="responsedata.name"></strong></p>
-        <p>Number: <strong x-text="responsedata.number"></strong></p>
-        <p>Nationality: <strong x-text="responsedata.nationality"></strong></p>
+<h4>Driver made:</h4>
+<p x-if="responsedata">
+    Name: <strong x-text="responsedata.name"></strong><br>
+    Number: <strong x-text="responsedata.number"></strong><br>
+    Nationality: <strong x-text="responsedata.nationality"></strong>
+</p>
+<p x-if="!responsedata">No driver data available</p>
     </div>
 </div>
 </body>
