@@ -239,5 +239,87 @@
     </template>
 </div>
 
+
+<hr>
+
+
+
+
+<div x-data="{
+    teamByName: null,
+    teamName: '',
+    async fetchTeamByName() {
+        if ($data.teamName) {
+            const url = `https://f1-api-matscouwenberg.cloud.okteto.net/teams/name/${encodeURIComponent($data.teamName)}`;
+            const response = await fetch(url);
+
+            if (response.ok) {
+                $data.teamByName = await response.json();
+            } else {
+                $data.teamByName = null;
+                console.error(`Error fetching team with name ${$data.teamName}`);
+            }
+        }
+    }
+}" x-init="fetchTeamByName">
+    <h1>Team Search by name</h1>
+    <div style="margin-left: 30px;">
+        <label for="teamNameInput">Enter team name:</label>
+        <input type="text" id="teamNameInput" x-model="$data.teamName">
+        <button x-on:click="fetchTeamByName">Search</button>
+    </div>
+
+    <template x-if="$data.teamByName">
+        <li style="margin-bottom: 20px;">
+            <span class="teamname" x-text="$data.teamByName.name"></span>
+            <br>
+            <span class="teaminfo" x-text="$data.teamByName.country"></span>
+
+        </li>
+    </template>
+    <template x-if="!$data.teamByName && $data.teamName !== ''">
+        <p>No team found with the specified name.</p>
+    </template>
+</div>
+
+
+<div x-data="{
+    teamByCountry: null,
+    teamCountry: '',
+    async fetchTeamByCountry() {
+        if ($data.teamCountry) {
+            const url = `https://f1-api-matscouwenberg.cloud.okteto.net/teams/country/${encodeURIComponent($data.teamCountry)}`;
+            const response = await fetch(url);
+
+            if (response.ok) {
+                $data.teamByCountry = await response.json();
+            } else {
+                $data.teamByCountry = null;
+                console.error(`Error fetching team with country ${$data.teamCountry}`);
+            }
+        }
+    }
+}" x-init="fetchTeamByCountry">
+    <h1>Team Search by country</h1>
+    <div style="margin-left: 30px;">
+        <label for="teamCountryInput">Enter team country:</label>
+        <input type="text" id="teamCountryInput" x-model="$data.teamCountry">
+        <button x-on:click="fetchTeamByCountry">Search</button>
+    </div>
+
+    <template x-if="$data.teamByCountry">
+        <li style="margin-bottom: 20px;">
+            <span class="teamname" x-text="$data.teamByCountry.name"></span>
+            <br>
+            <span class="teaminfo" x-text="$data.teamByCountry.country"></span>
+
+        </li>
+    </template>
+    <template x-if="!$data.teamByCountry && $data.teamCountry !== ''">
+        <p>No team found with the specified country.</p>
+    </template>
+</div>
+
+
 </body>
 </html>

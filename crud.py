@@ -52,3 +52,9 @@ def get_teams(db: Session, skip: int = 0, limit: int = 100):
 def get_team_by_id(db: Session, id: int):
     return db.query(models.Team).filter(models.Team.id == id).first()
 
+def get_team_by_name(db: Session, name: str):
+    return db.query(models.Team).filter(models.Team.name == name).first()
+
+def get_team_by_country(db: Session, country: str):
+    return db.query(models.Team).filter(models.Team.country == country).first()
+

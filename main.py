@@ -73,6 +73,22 @@ def read_teams(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     teams = crud.get_teams(db, skip=skip, limit=limit)
     return teams
 
+# Get a team by name
+@app.get("/teams/name/{name}", response_model=schemas.Team)
+def read_team_by_name(name: str, db: Session = Depends(get_db)):
+    team = crud.get_team_by_name(db, name=name)
+    if team is None:
+        raise HTTPException(status_code=404, detail="Team not found")
+    return team
+
+# Get a name by country
+@app.get("/teams/country/{country}", response_model=schemas.Team)
+def read_team_by_country(country: str, db: Session = Depends(get_db)):
+    team = crud.get_team_by_country(db, country=country)
+    if team is None:
+        raise HTTPException(status_code=404, detail="Team not found")
+    return team
+
 # Delete driver by number
 @app.delete("/drivers/delete/{number}")
 def delete_driver(number: int, db: Session = Depends(get_db)):
