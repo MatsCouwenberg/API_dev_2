@@ -24,7 +24,7 @@ def get_db():
         db.close()
 
 origins = [
-    "https://matscouwenberg.github.io/API_dev_1/"
+    "*"
 ]
 
 app.add_middleware(
