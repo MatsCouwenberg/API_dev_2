@@ -156,6 +156,47 @@
 </div>
     </div>
     </div>
+<hr>
+
+
+
+
+<div x-data="{
+    driver: null,
+    driverNumber: '',
+    async fetchDriver() {
+        if ($data.driverNumber) {
+            const url = `https://f1-api-matscouwenberg.cloud.okteto.net/drivers/${$data.driverNumber}`;
+            const response = await fetch(url);
+
+            if (response.ok) {
+                $data.driver = await response.json();
+            } else {
+                $data.driver = null;
+                console.error(`Error fetching driver with number ${$data.driverNumber}`);
+            }
+        }
+    }
+}" x-init="fetchDriver">
+    <h1>Driver Search</h1>
+    <label for="driverNumberInput">Enter Driver Number:</label>
+    <input type="number" id="driverNumberInput" x-model="$data.driverNumber">
+
+    <button x-on:click="fetchDriver">Search</button>
+
+    <template x-if="$data.driver">
+        <li style="margin-bottom: 20px;">
+            <span class="drivername" x-text="$data.driver.name"></span>
+            <br>
+            <span class="driverinfo" x-text="$data.driver.number"></span>
+            <br>
+            <span class="driverinfo" x-text="$data.driver.nationality"></span>
+        </li>
+    </template>
+    <template x-if="!$data.driver && $data.driverNumber !== ''">
+        <p>No driver found with the specified number.</p>
+    </template>
 </div>
+
 </body>
 </html>
