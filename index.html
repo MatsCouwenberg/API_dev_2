@@ -82,7 +82,7 @@
         driverName: null,
         driverNationality: null,
         async addDriver() {
-            this.responsedata = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/new',
+            this.responsedata = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/new/',
             {
                 method: 'POST',
                 body: JSON.stringify({
