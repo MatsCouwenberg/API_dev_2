@@ -3,17 +3,11 @@
     <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
     <title>F1 API</title>
     <style>
-        .drivername{
+        .drivername, .teamname{
             font-size: 18px;
             font-family: "Arial Black", "Arial", sans-serif;
         }
-        .teamname{
-            font-size: 18px;
-        }
-        .driverinfo{
-            margin-left: 30px;
-        }
-        .teaminfo{
+        .driverinfo, .teaminfo{
             margin-left: 30px;
         }
         h1{
@@ -161,7 +155,43 @@
     </p>
 </div>
     </div>
+    <hr>
+    <div class="left-container">
 
+
+
+       <div x-data="{
+    deleteAllDrivers: async function() {
+        await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/delete-all/', {
+            method: 'DELETE',
+        });
+
+        console.log('All drivers deleted!');
+    },
+    deleteAllTeams: async function() {
+        await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/teams/delete-all/', {
+            method: 'DELETE',
+        });
+
+        console.log('All teams deleted!');
+    }
+}">
+    <h1>Delete</h1>
+    <div style="display: flex;">
+        <div>
+            <button x-on:click="deleteAllDrivers">Delete All Drivers</button>
+        </div>
+        <div>
+            <button x-on:click="deleteAllTeams">Delete All Teams</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    </div>
 </div>
 </body>
 </html>
