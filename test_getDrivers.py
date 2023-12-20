@@ -1,7 +1,7 @@
 import requests
 
 def test_get_drivers():
-    response = requests.get('http://127.0.0.1:8000/drivers/')
+    response = requests.get('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/')
     assert response.status_code == 200
 
     drivers = response.json()
