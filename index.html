@@ -22,6 +22,9 @@
                 <a class="nav-link" href="#teamsnav">Teams</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="#circuitnav">Circuits</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#searchnav">Search</a>
             </li>
             <li class="nav-item">
@@ -64,10 +67,26 @@
         </div>
     </div>
     <div class="line"></div>
+    <h2 id="circuitnav">Circuits</h2>
+    <div class="row">
+        <div class="col-md-3" v-for="circuit in circuits" :key="circuit.id">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="card-title"><strong>Name:</strong> {{ circuit.name }}</p>
+                    <p class="card-text"><strong>Name:</strong> {{ circuit.country }}</p>
+                </div>
+            </div>
+        </div>
+        <div v-if="circuits.length === 0" class="col-md-12">
+            <p class="text-center">There are 0 circuits available.</p>
+        </div>
+    </div>
+
+    <div class="line"></div>
     <h2 id="searchnav">Search</h2>
     <h4>Drivers</h4>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <form @submit.prevent="searchDriverByName">
                 <div class="form-group">
                     <label for="searchDriver">Enter driver name:</label>
@@ -77,7 +96,7 @@
             </form>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <form @submit.prevent="searchDriverByNumber">
                 <div class="form-group">
                     <label for="searchDriverNumber">Enter driver number:</label>
@@ -87,7 +106,7 @@
             </form>
         </div>
 
-        <div class="col-md-3" v-if="Object.keys(driverSearchResults).length > 0">
+        <div class="col-md-4" v-if="Object.keys(driverSearchResults).length > 0">
             <div class="card mb-3">
                 <div class="card-body">
                     <p class="card-title"><strong>Name:</strong> {{ driverSearchResults.name }}</p>
@@ -102,7 +121,7 @@
     <div class="small-line"></div>
     <h4>Teams</h4>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <form @submit.prevent="searchTeamByName">
                 <div class="form-group">
                     <label for="searchTeam">Enter team name:</label>
@@ -111,7 +130,7 @@
                 <button type="submit" class="btn btn-success mt-2">Search</button>
             </form>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <form @submit.prevent="searchTeamByCountry">
                 <div class="form-group">
                     <label for="searchTeamCountry">Enter team country:</label>
@@ -121,8 +140,7 @@
             </form>
         </div>
 
-        <!-- Display team search results -->
-        <div class="col-md-3" v-if="Object.keys(teamSearchResults).length > 0">
+        <div class="col-md-4" v-if="Object.keys(teamSearchResults).length > 0">
             <div class="card mb-3">
                 <div class="card-body">
                     <p class="card-title"><strong>Name:</strong> {{ teamSearchResults.name }}</p>
@@ -136,40 +154,54 @@
 
     <div class="line"></div>
     <h2 id="adminnav">Admin</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>Add team</h4>
-            <form @submit.prevent="addTeam">
-                <div class="form-group">
-                    <label for="teamName">Team Name</label>
-                    <input type="text" class="form-control" id="teamName" v-model="teamName">
-                </div>
-                <div class="form-group">
-                    <label for="teamCountry">Country</label>
-                    <input type="text" class="form-control" id="teamCountry" v-model="teamCountry">
-                </div>
-                <button type="submit" class="btn btn-success">Add Team</button>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <h4>Add driver</h4>
-            <form @submit.prevent="addDriver">
-                <div class="form-group">
-                    <label for="driverNumber">Driver Number</label>
-                    <input type="number" class="form-control" id="driverNumber" v-model="driverNumber">
-                </div>
-                <div class="form-group">
-                    <label for="driverName">Driver Name</label>
-                    <input type="text" class="form-control" id="driverName" v-model="driverName">
-                </div>
-                <div class="form-group">
-                    <label for="driverNationality">Driver Nationality</label>
-                    <input type="text" class="form-control" id="driverNationality" v-model="driverNationality">
-                </div>
-                <button type="submit" class="btn btn-success">Add Driver</button>
-            </form>
-        </div>
+<div class="row">
+    <div class="col-md-4">
+        <h4>Add team</h4>
+        <form @submit.prevent="addTeam">
+            <div class="form-group">
+                <label for="teamName">Team Name</label>
+                <input type="text" class="form-control" id="teamName" v-model="teamName">
+            </div>
+            <div class="form-group">
+                <label for="teamCountry">Country</label>
+                <input type="text" class="form-control" id="teamCountry" v-model="teamCountry">
+            </div>
+            <button type="submit" class="btn btn-success">Add Team</button>
+        </form>
     </div>
+    <div class="col-md-4">
+        <h4>Add driver</h4>
+        <form @submit.prevent="addDriver">
+            <div class="form-group">
+                <label for="driverNumber">Driver Number</label>
+                <input type="number" class="form-control" id="driverNumber" v-model="driverNumber">
+            </div>
+            <div class="form-group">
+                <label for="driverName">Driver Name</label>
+                <input type="text" class="form-control" id="driverName" v-model="driverName">
+            </div>
+            <div class="form-group">
+                <label for="driverNationality">Driver Nationality</label>
+                <input type="text" class="form-control" id="driverNationality" v-model="driverNationality">
+            </div>
+            <button type="submit" class="btn btn-success">Add Driver</button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h4>Add circuit</h4>
+        <form @submit.prevent="addCircuit">
+            <div class="form-group">
+                <label for="circuitName">Circuit Name</label>
+                <input type="text" class="form-control" id="circuitName" v-model="circuitName">
+            </div>
+            <div class="form-group">
+                <label for="circuitCountry">Country</label>
+                <input type="text" class="form-control" id="circuitCountry" v-model="circuitCountry">
+            </div>
+            <button type="submit" class="btn btn-success">Add Circuit</button>
+        </form>
+    </div>
+</div>
 
 </div>
 <script>
@@ -178,6 +210,7 @@
         data: {
             drivers: [],
             teams: [],
+            circuits: [],
             teamName: '',
             teamCountry: '',
             driverNumber: '',
@@ -187,8 +220,12 @@
             searchDriverNumber: '',
             searchTeamName: '',
             searchTeamCountry: '',
+            searchCircuitName: '',
             driverSearchResults: [],
-            teamSearchResults: []
+            teamSearchResults: [],
+            circuitSearchResults: [],
+            circuitName: '',
+            circuitCountry: '',
         },
         created() {
             this.getData();
@@ -198,6 +235,7 @@
                 try {
                     const driversResponse = await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/');
                     const teamsResponse = await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/teams/');
+                    const circuitsResponse = await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/circuits/');
 
                     if (driversResponse.ok) {
                         this.drivers = await driversResponse.json();
@@ -205,6 +243,10 @@
 
                     if (teamsResponse.ok) {
                         this.teams = await teamsResponse.json();
+                    }
+
+                    if (circuitsResponse.ok) {
+                        this.circuits = await circuitsResponse.json();
                     }
                 } catch (error) {
                     console.error('Error fetching data:', error);
@@ -258,6 +300,30 @@
                     }
                 } catch (error) {
                     console.error('Error adding driver:', error);
+                }
+            },
+            async addCircuit() {
+                try {
+                    const response = await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/circuits/new/', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            name: this.circuitName,
+                            country: this.circuitCountry
+                        }),
+                        headers: {
+                            'Content-type': 'application/json; charset=UTF-8'
+                        }
+                    });
+
+                    if (response.ok) {
+                        await this.getData();
+                        this.circuitName = '';
+                        this.circuitCountry = '';
+                    } else {
+                        console.error('Failed to add circuit');
+                    }
+                } catch (error) {
+                    console.error('Error adding circuit:', error);
                 }
             },
             async searchDriverByName() {
