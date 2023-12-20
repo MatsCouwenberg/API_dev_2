@@ -118,3 +118,20 @@ def delete_team(id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Team not found")
     crud.delete_driver(db, team)
     return {"message": "Team deleted"}
+
+# Create a Circuit
+@app.post("/circuits/new/", response_model=schemas.Circuit)
+def create_circuit(circuit: schemas.CircuitCreate, db: Session = Depends(get_db)):
+    return crud.create_circuit(db=db, circuit=circuit)
+
+# Get a list of Circuits
+@app.get("/circuits/", response_model=list[schemas.Circuit])
+def read_circuits(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    circuits = crud.get_circuits(db, skip=skip, limit=limit)
+    return circuits
+
+# Delete all circuits
+@app.delete("/circuits/delete-all")
+def delete_all_circuits(db: Session = Depends(get_db)):
+    crud.delete_all_circuits(db)
+    return {"message": "All circuits deleted"}

@@ -58,3 +58,18 @@ def get_team_by_name(db: Session, name: str):
 def get_team_by_country(db: Session, country: str):
     return db.query(models.Team).filter(models.Team.country == country).first()
 
+def create_circuit(db: Session, circuit: schemas.CircuitCreate):
+    db_circuit = models.Circuit(**circuit.dict())
+    db.add(db_circuit)
+    db.commit()
+    db.refresh(db_circuit)
+    return db_circuit
+
+def get_circuits(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Circuit).offset(skip).limit(limit).all()
+
+def delete_all_circuits(db: Session):
+    circuits = db.query(models.Circuit).all()
+    for circuit in circuits:
+        db.delete(circuit)
+    db.commit()

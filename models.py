@@ -15,3 +15,10 @@ class Team(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     country = Column(String, index=True)
+
+class Circuit(Base):
+    __tablename__ = "circuits"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    country = Column(String, index=True)
