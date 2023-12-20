@@ -65,43 +65,111 @@
     </div>
     <div class="line"></div>
     <h2 id="searchnav">Search</h2>
-    dfdfs
+    <h4>Drivers</h4>
+    <div class="row">
+        <div class="col-md-3">
+            <form @submit.prevent="searchDriverByName">
+                <div class="form-group">
+                    <label for="searchDriver">Enter driver name:</label>
+                    <input type="text" v-model="searchDriverName" class="form-control" id="searchDriver">
+                </div>
+                <button type="submit" class="btn btn-success mt-2">Search</button>
+            </form>
+        </div>
+
+        <div class="col-md-3">
+            <form @submit.prevent="searchDriverByNumber">
+                <div class="form-group">
+                    <label for="searchDriverNumber">Enter driver number:</label>
+                    <input type="text" v-model="searchDriverNumber" class="form-control" id="searchDriverNumber">
+                </div>
+                <button type="submit" class="btn btn-success mt-2">Search</button>
+            </form>
+        </div>
+
+        <div class="col-md-3" v-if="Object.keys(driverSearchResults).length > 0">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="card-title"><strong>Name:</strong> {{ driverSearchResults.name }}</p>
+                    <p class="card-text"><strong>Number:</strong> {{ driverSearchResults.number }}</p>
+                    <p class="card-text"><strong>Nationality:</strong> {{ driverSearchResults.nationality }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" v-else class="empty-card">No results found.</div>
+    </div>
+
+    <div class="small-line"></div>
+    <h4>Teams</h4>
+    <div class="row">
+        <div class="col-md-3">
+            <form @submit.prevent="searchTeamByName">
+                <div class="form-group">
+                    <label for="searchTeam">Enter team name:</label>
+                    <input type="text" v-model="searchTeamName" class="form-control" id="searchTeam">
+                </div>
+                <button type="submit" class="btn btn-success mt-2">Search</button>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <form @submit.prevent="searchTeamByCountry">
+                <div class="form-group">
+                    <label for="searchTeamCountry">Enter team country:</label>
+                    <input type="text" v-model="searchTeamCountry" class="form-control" id="searchTeamCountry">
+                </div>
+                <button type="submit" class="btn btn-success mt-2">Search</button>
+            </form>
+        </div>
+
+        <!-- Display team search results -->
+        <div class="col-md-3" v-if="Object.keys(teamSearchResults).length > 0">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="card-title"><strong>Name:</strong> {{ teamSearchResults.name }}</p>
+                    <p class="card-text"><strong>Country:</strong> {{ teamSearchResults.country }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" v-else class="empty-card">No results found.</div>
+    </div>
+
     <div class="line"></div>
     <h2 id="adminnav">Admin</h2>
     <div class="row">
-    <div class="col-md-6">
-        <h4>Add team</h4>
-        <form @submit.prevent="addTeam">
-            <div class="form-group">
-                <label for="teamName">Team Name</label>
-                <input type="text" class="form-control" id="teamName" v-model="teamName">
-            </div>
-            <div class="form-group">
-                <label for="teamCountry">Country</label>
-                <input type="text" class="form-control" id="teamCountry" v-model="teamCountry">
-            </div>
-            <button type="submit" class="btn btn-success">Add Team</button>
-        </form>
+        <div class="col-md-6">
+            <h4>Add team</h4>
+            <form @submit.prevent="addTeam">
+                <div class="form-group">
+                    <label for="teamName">Team Name</label>
+                    <input type="text" class="form-control" id="teamName" v-model="teamName">
+                </div>
+                <div class="form-group">
+                    <label for="teamCountry">Country</label>
+                    <input type="text" class="form-control" id="teamCountry" v-model="teamCountry">
+                </div>
+                <button type="submit" class="btn btn-success">Add Team</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h4>Add driver</h4>
+            <form @submit.prevent="addDriver">
+                <div class="form-group">
+                    <label for="driverNumber">Driver Number</label>
+                    <input type="number" class="form-control" id="driverNumber" v-model="driverNumber">
+                </div>
+                <div class="form-group">
+                    <label for="driverName">Driver Name</label>
+                    <input type="text" class="form-control" id="driverName" v-model="driverName">
+                </div>
+                <div class="form-group">
+                    <label for="driverNationality">Driver Nationality</label>
+                    <input type="text" class="form-control" id="driverNationality" v-model="driverNationality">
+                </div>
+                <button type="submit" class="btn btn-success">Add Driver</button>
+            </form>
+        </div>
     </div>
-    <div class="col-md-6">
-        <h4>Add driver</h4>
-        <form @submit.prevent="addDriver">
-            <div class="form-group">
-                <label for="driverNumber">Driver Number</label>
-                <input type="number" class="form-control" id="driverNumber" v-model="driverNumber">
-            </div>
-            <div class="form-group">
-                <label for="driverName">Driver Name</label>
-                <input type="text" class="form-control" id="driverName" v-model="driverName">
-            </div>
-            <div class="form-group">
-                <label for="driverNationality">Driver Nationality</label>
-                <input type="text" class="form-control" id="driverNationality" v-model="driverNationality">
-            </div>
-            <button type="submit" class="btn btn-success">Add Driver</button>
-        </form>
-    </div>
-</div>
 
 </div>
 <script>
@@ -114,7 +182,13 @@
             teamCountry: '',
             driverNumber: '',
             driverName: '',
-            driverNationality: ''
+            driverNationality: '',
+            searchDriverName: '',
+            searchDriverNumber: '',
+            searchTeamName: '',
+            searchTeamCountry: '',
+            driverSearchResults: [],
+            teamSearchResults: []
         },
         created() {
             this.getData();
@@ -185,9 +259,72 @@
                 } catch (error) {
                     console.error('Error adding driver:', error);
                 }
+            },
+            async searchDriverByName() {
+                try {
+                    const driverResponse = await fetch(`https://f1-api-matscouwenberg.cloud.okteto.net/drivers/name/${this.searchDriverName}`);
+                    if (driverResponse.ok) {
+                        this.driverSearchResults = await driverResponse.json();
+                        console.log('Driver search results:', this.driverSearchResults);
+                    } else {
+                        console.error('Failed to fetch drivers by name');
+                        this.driverSearchResults = [];
+                    }
+                } catch (error) {
+                    console.error('Error searching driver by name:', error);
+                } finally {
+                    this.searchDriverName = '';
+                }
+            },
+
+            async searchDriverByNumber() {
+                try {
+                    const numberResponse = await fetch(`https://f1-api-matscouwenberg.cloud.okteto.net/drivers/number/${this.searchDriverNumber}`);
+                    if (numberResponse.ok) {
+                        this.driverSearchResults = await numberResponse.json();
+                        console.log('Driver search results by number:', this.driverSearchResults);
+                    } else {
+                        console.error('Failed to fetch drivers by number');
+                        this.driverSearchResults = [];
+                    }
+                } finally {
+                    this.searchDriverNumber = '';
+                }
+            },
+
+            async searchTeamByName() {
+                try {
+                    const teamNameResponse = await fetch(`https://f1-api-matscouwenberg.cloud.okteto.net/teams/name/${this.searchTeamName}`);
+                    if (teamNameResponse.ok) {
+                        this.teamSearchResults = await teamNameResponse.json();
+                        console.log('Team search results by name:', this.teamSearchResults);
+                    } else {
+                        console.error('Failed to fetch teams by name');
+                        this.teamSearchResults = [];
+                    }
+                } finally {
+                    this.searchTeamName = '';
+                }
+            },
+
+            async searchTeamByCountry() {
+                try {
+                    const countryResponse = await fetch(`https://f1-api-matscouwenberg.cloud.okteto.net/teams/country/${this.searchTeamCountry}`);
+                    if (countryResponse.ok) {
+                        this.teamSearchResults = await countryResponse.json();
+                        console.log('Team search results by country:', this.teamSearchResults);
+                    } else {
+                        console.error('Failed to fetch teams by country');
+                        this.teamSearchResults = [];
+                    }
+                } finally {
+                    this.searchTeamCountry = '';
+                }
             }
+
         }
     });
 </script>
+
 </body>
 </html>

@@ -17,6 +17,11 @@ body {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+.small-line {
+    border-bottom: 2px solid red;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 h2{
     font-family: 'Poppins', sans-serif;
     color: red;
