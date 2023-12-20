@@ -1,0 +1,326 @@
+<html lang="en" xmlns:x-on="http://www.w3.org/1999/xhtml">
+<head>
+    <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
+    <title>F1 API</title>
+    <style>
+        .drivername, .teamname{
+            font-size: 18px;
+            font-family: "Arial Black", "Arial", sans-serif;
+        }
+        .driverinfo, .teaminfo{
+            margin-left: 30px;
+        }
+        h1{
+            margin-left: 40px;
+            font-family: "Arial Black", "Arial", sans-serif;
+        }
+        *{
+            margin-left: 10px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .left-container, .right-container {
+            width: 45%;
+        }
+        h4{
+            font-family: "Arial Black", "Arial", sans-serif;
+        }
+    </style>
+</head>
+<body>
+BONJOOOUUURRR TEST 2
+<div class="container">
+    <div class="left-container">
+<div x-data="{
+    drivers: null,
+    async fetchDrivers() {
+        this.drivers = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/')).json();
+    }
+}" x-init="fetchDrivers">
+    <h1>Drivers</h1>
+    <template x-if="drivers">
+        <template x-for="driver in drivers">
+            <li style="margin-bottom: 20px;">
+                <span class="drivername" x-text="driver.name"></span>
+                <br>
+                <span class="driverinfo" x-text="driver.number"></span>
+                <br>
+                <span class="driverinfo" x-text="driver.nationality"></span>
+            </li>
+        </template>
+    </template>
+</div>
+
+<div x-data="{
+    teams: null,
+    async fetchTeams() {
+        this.teams = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/teams/')).json();
+    }
+}" x-init="fetchTeams">
+    <h1>Teams</h1>
+    <template x-if="teams">
+        <template x-for="team in teams">
+            <li style="margin-bottom: 20px;">
+                <span class="teamname" x-text="team.name"></span>
+                <br>
+                <span class="teaminfo" x-text="team.country"></span>
+            </li>
+        </template>
+    </template>
+</div>
+        </div>
+
+<div class="right-container" x-data="{
+        responsedata: null,
+        driverNumber: null,
+        driverName: null,
+        driverNationality: null,
+        async addDriver() {
+            this.responsedata = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/drivers/new/',
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    number: this.driverNumber,
+                    name: this.driverName,
+                    nationality: this.driverNationality,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })).json();
+
+            console.log(this.responsedata);
+        },
+    }">
+    <h1 style="margin-left: 0;">Create driver</h1>
+    <p>
+        <label for="driverNumber">Number:</label>
+        <input type="number" id="driverNumber" x-model="driverNumber">
+    </p>
+    <p>
+        <label for="driverName">Name:</label>
+        <input type="text" id="driverName" x-model="driverName">
+    </p>
+    <p>
+        <label for="driverNationality">Nationality:</label>
+        <input type="text" id="driverNationality" x-model="driverNationality">
+    </p>
+        <button x-on:click="addDriver">Add Driver</button>
+<h4>Driver made:</h4>
+<p x-if="responsedata">
+    Name: <strong x-text="responsedata.name"></strong><br>
+    Number: <strong x-text="responsedata.number"></strong><br>
+    Nationality: <strong x-text="responsedata.nationality"></strong>
+</p>
+    <br>
+    <br>
+    <br>
+    <div x-data="{
+    responsedata: null,
+    teamName: null,
+    teamCountry: null,
+    async addTeam() {
+        this.responsedata = await (await fetch('https://f1-api-matscouwenberg.cloud.okteto.net/teams/new/',
+        {
+            method: 'POST',
+            body: JSON.stringify({
+                name: this.teamName,
+                country: this.teamCountry,
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        })).json();
+
+        console.log(this.responsedata);
+    },
+}">
+    <h1 style="margin-left: 0;">Create Team</h1>
+    <p>
+        <label for="teamName">Name:</label>
+        <input type="text" id="teamName" x-model="teamName">
+    </p>
+    <p>
+        <label for="teamCountry">Country:</label>
+        <input type="text" id="teamCountry" x-model="teamCountry">
+    </p>
+    <button x-on:click="addTeam">Add Team</button>
+    <h4>Team made:</h4>
+    <p x-if="responsedata">
+        Name: <strong x-text="responsedata.name"></strong><br>
+        Country: <strong x-text="responsedata.country"></strong>
+    </p>
+</div>
+    </div>
+    </div>
+<hr>
+
+
+
+
+<div x-data="{
+    driver: null,
+    driverNumber: '',
+    async fetchDriver() {
+        if ($data.driverNumber) {
+            const url = `https://f1-api-matscouwenberg.cloud.okteto.net/drivers/number/${$data.driverNumber}`;
+            const response = await fetch(url);
+
+            if (response.ok) {
+                $data.driver = await response.json();
+            } else {
+                $data.driver = null;
+                console.error(`Error fetching driver with number ${$data.driverNumber}`);
+            }
+        }
+    }
+}" x-init="fetchDriver">
+    <h1>Driver Search by number</h1>
+    <div style="margin-left: 30px;">
+    <label for="driverNumberInput">Enter driver number:</label>
+    <input type="number" id="driverNumberInput" x-model="$data.driverNumber">
+        <button x-on:click="fetchDriver">Search</button>
+    </div>
+
+    <template x-if="$data.driver">
+        <li style="margin-bottom: 20px;">
+            <span class="drivername" x-text="$data.driver.name"></span>
+            <br>
+            <span class="driverinfo" x-text="$data.driver.number"></span>
+            <br>
+            <span class="driverinfo" x-text="$data.driver.nationality"></span>
+        </li>
+    </template>
+    <template x-if="!$data.driver && $data.driverNumber !== ''">
+        <p>No driver found with the specified number.</p>
+    </template>
+</div>
+
+
+
+<div x-data="{
+    driver: null,
+    driverName: '',
+    async fetchDriver() {
+        if ($data.driverName) {
+            const url = `https://f1-api-matscouwenberg.cloud.okteto.net/drivers/name/${encodeURIComponent($data.driverName)}`;
+            const response = await fetch(url);
+
+            if (response.ok) {
+                $data.driver = await response.json();
+            } else {
+                $data.driver = null;
+                console.error(`Error fetching driver with name ${$data.driverName}`);
+            }
+        }
+    }
+}" x-init="fetchDriver">
+    <h1>Driver Search by name</h1>
+    <div style="margin-left: 30px;">
+        <label for="driverNameInput">Enter driver name:</label>
+        <input type="text" id="driverNameInput" x-model="$data.driverName">
+        <button x-on:click="fetchDriver">Search</button>
+    </div>
+
+    <template x-if="$data.driver">
+        <li style="margin-bottom: 20px;">
+            <span class="drivername" x-text="$data.driver.name"></span>
+            <br>
+            <span class="driverinfo" x-text="$data.driver.number"></span>
+            <br>
+            <span class="driverinfo" x-text="$data.driver.nationality"></span>
+        </li>
+    </template>
+    <template x-if="!$data.driver && $data.driverName !== ''">
+        <p>No driver found with the specified name.</p>
+    </template>
+</div>
+
+
+<hr>
+
+
+
+
+<div x-data="{
+    teamByName: null,
+    teamName: '',
+    async fetchTeamByName() {
+        if ($data.teamName) {
+            const url = `https://f1-api-matscouwenberg.cloud.okteto.net/teams/name/${encodeURIComponent($data.teamName)}`;
+            const response = await fetch(url);
+
+            if (response.ok) {
+                $data.teamByName = await response.json();
+            } else {
+                $data.teamByName = null;
+                console.error(`Error fetching team with name ${$data.teamName}`);
+            }
+        }
+    }
+}" x-init="fetchTeamByName">
+    <h1>Team Search by name</h1>
+    <div style="margin-left: 30px;">
+        <label for="teamNameInput">Enter team name:</label>
+        <input type="text" id="teamNameInput" x-model="$data.teamName">
+        <button x-on:click="fetchTeamByName">Search</button>
+    </div>
+
+    <template x-if="$data.teamByName">
+        <li style="margin-bottom: 20px;">
+            <span class="teamname" x-text="$data.teamByName.name"></span>
+            <br>
+            <span class="teaminfo" x-text="$data.teamByName.country"></span>
+
+        </li>
+    </template>
+    <template x-if="!$data.teamByName && $data.teamName !== ''">
+        <p>No team found with the specified name.</p>
+    </template>
+</div>
+
+
+<div x-data="{
+    teamByCountry: null,
+    teamCountry: '',
+    async fetchTeamByCountry() {
+        if ($data.teamCountry) {
+            const url = `https://f1-api-matscouwenberg.cloud.okteto.net/teams/country/${encodeURIComponent($data.teamCountry)}`;
+            const response = await fetch(url);
+
+            if (response.ok) {
+                $data.teamByCountry = await response.json();
+            } else {
+                $data.teamByCountry = null;
+                console.error(`Error fetching team with country ${$data.teamCountry}`);
+            }
+        }
+    }
+}" x-init="fetchTeamByCountry">
+    <h1>Team Search by country</h1>
+    <div style="margin-left: 30px;">
+        <label for="teamCountryInput">Enter team country:</label>
+        <input type="text" id="teamCountryInput" x-model="$data.teamCountry">
+        <button x-on:click="fetchTeamByCountry">Search</button>
+    </div>
+
+    <template x-if="$data.teamByCountry">
+        <li style="margin-bottom: 20px;">
+            <span class="teamname" x-text="$data.teamByCountry.name"></span>
+            <br>
+            <span class="teaminfo" x-text="$data.teamByCountry.country"></span>
+
+        </li>
+    </template>
+    <template x-if="!$data.teamByCountry && $data.teamCountry !== ''">
+        <p>No team found with the specified country.</p>
+    </template>
+</div>
+
+
+</body>
+</html>

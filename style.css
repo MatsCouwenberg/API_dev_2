@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@700&display=swap');
+body {
+    overflow-x: hidden;
+}
+#app{
+    margin: 10px;
+}
+.card{
+    border: solid 2px lightgray;
+}
+.navbar {
+    border-bottom: 5px solid red;
+    margin-bottom: 15px;
+}
+.line {
+    border-bottom: 5px solid red;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+h2{
+    font-family: 'Poppins', sans-serif;
+    color: red;
+}
+h4{
+    font-family: 'Poppins', sans-serif;
+}
