@@ -154,54 +154,54 @@
 
     <div class="line"></div>
     <h2 id="adminnav">Admin</h2>
-<div class="row">
-    <div class="col-md-4">
-        <h4>Add team</h4>
-        <form @submit.prevent="addTeam">
-            <div class="form-group">
-                <label for="teamName">Team Name</label>
-                <input type="text" class="form-control" id="teamName" v-model="teamName">
-            </div>
-            <div class="form-group">
-                <label for="teamCountry">Country</label>
-                <input type="text" class="form-control" id="teamCountry" v-model="teamCountry">
-            </div>
-            <button type="submit" class="btn btn-success">Add Team</button>
-        </form>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Add team</h4>
+            <form @submit.prevent="addTeam">
+                <div class="form-group">
+                    <label for="teamName">Team Name</label>
+                    <input type="text" class="form-control" id="teamName" v-model="teamName">
+                </div>
+                <div class="form-group">
+                    <label for="teamCountry">Country</label>
+                    <input type="text" class="form-control" id="teamCountry" v-model="teamCountry">
+                </div>
+                <button type="submit" class="btn btn-success">Add Team</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <h4>Add driver</h4>
+            <form @submit.prevent="addDriver">
+                <div class="form-group">
+                    <label for="driverNumber">Driver Number</label>
+                    <input type="number" class="form-control" id="driverNumber" v-model="driverNumber">
+                </div>
+                <div class="form-group">
+                    <label for="driverName">Driver Name</label>
+                    <input type="text" class="form-control" id="driverName" v-model="driverName">
+                </div>
+                <div class="form-group">
+                    <label for="driverNationality">Driver Nationality</label>
+                    <input type="text" class="form-control" id="driverNationality" v-model="driverNationality">
+                </div>
+                <button type="submit" class="btn btn-success">Add Driver</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <h4>Add circuit</h4>
+            <form @submit.prevent="addCircuit">
+                <div class="form-group">
+                    <label for="circuitName">Circuit Name</label>
+                    <input type="text" class="form-control" id="circuitName" v-model="circuitName">
+                </div>
+                <div class="form-group">
+                    <label for="circuitCountry">Country</label>
+                    <input type="text" class="form-control" id="circuitCountry" v-model="circuitCountry">
+                </div>
+                <button type="submit" class="btn btn-success">Add Circuit</button>
+            </form>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h4>Add driver</h4>
-        <form @submit.prevent="addDriver">
-            <div class="form-group">
-                <label for="driverNumber">Driver Number</label>
-                <input type="number" class="form-control" id="driverNumber" v-model="driverNumber">
-            </div>
-            <div class="form-group">
-                <label for="driverName">Driver Name</label>
-                <input type="text" class="form-control" id="driverName" v-model="driverName">
-            </div>
-            <div class="form-group">
-                <label for="driverNationality">Driver Nationality</label>
-                <input type="text" class="form-control" id="driverNationality" v-model="driverNationality">
-            </div>
-            <button type="submit" class="btn btn-success">Add Driver</button>
-        </form>
-    </div>
-    <div class="col-md-4">
-        <h4>Add circuit</h4>
-        <form @submit.prevent="addCircuit">
-            <div class="form-group">
-                <label for="circuitName">Circuit Name</label>
-                <input type="text" class="form-control" id="circuitName" v-model="circuitName">
-            </div>
-            <div class="form-group">
-                <label for="circuitCountry">Country</label>
-                <input type="text" class="form-control" id="circuitCountry" v-model="circuitCountry">
-            </div>
-            <button type="submit" class="btn btn-success">Add Circuit</button>
-        </form>
-    </div>
-</div>
 
 </div>
 <script>
@@ -336,8 +336,6 @@
                         console.error('Failed to fetch drivers by name');
                         this.driverSearchResults = [];
                     }
-                } catch (error) {
-                    console.error('Error searching driver by name:', error);
                 } finally {
                     this.searchDriverName = '';
                 }
